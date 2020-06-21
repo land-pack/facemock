@@ -86,13 +86,13 @@ def extends(steps):
             new_steps.append(step)
     return new_steps
 
-def main(filename='data.yaml', group_name ='A', output_file='./test.yaml'):
+def main(filename, group_name, output_file):
 
-    original = read_by_group_name(filename, group_name)
-    s = get_steps(original)
+    original = parser_yaml(filename)
+    s = get_steps(original.get("A"))
     new_steps = []
     new_steps = extends(s)
-    original.update({
+    original['A'].update({
         "steps": new_steps
     })
 

@@ -1,20 +1,21 @@
-id: CASE-STACKOVERFLOW-HOME
-status: 0
-steps:
-# Ref:common: A
-# Ref:login: A
-- cmd: click
-  desc: Login
-  location: /login
-# End:login: A
-- cmd: click
-  desc: BASE Operator
-  location: /
-- cmd: something
-- desc: just for test
-# End:common: A
-- cmd: click
-  desc: open a page
-  location: /
-- cmd: screenshot
-  name: HOME-PAGE
+A:
+  id: CASE-STACKOVERFLOW-HOME
+  status: 0
+  steps:
+  # Ref:common: A
+  # Ref:login: A
+  - cmd: click
+    desc: Login
+    location: /login
+  # End:login: A
+  - cmd: click
+    desc: BASE Operator
+    location: /
+  - cmd: something
+  - desc: just for test
+  # End:common: A
+  - cmd: click
+    desc: open a page
+    location: /
+  - cmd: screenshot
+    name: HOME-PAGE
