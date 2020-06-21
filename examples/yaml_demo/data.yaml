@@ -1,0 +1,14 @@
+A:
+    id: CASE-STACKOVERFLOW-HOME
+    status: 0
+    steps:
+
+      - ref: "common_A"
+      # - ref: "login_A"
+
+      - cmd: click
+        desc: "open a page"
+        location: '/'
+
+      - cmd: screenshot
+        name: HOME-PAGE
