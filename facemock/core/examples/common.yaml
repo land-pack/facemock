@@ -1,0 +1,27 @@
+A:
+    id: CASE-COMMON-1
+    status: 0
+    steps:
+
+
+      - ref: "login_A"
+      - cmd: click
+        desc: "BASE Operator"
+        location: '/'
+
+      - cmd: something
+      - desc: just for test
+
+B:
+    id: CASE-COMMON-2
+    status: 0
+    steps:
+
+
+      # - ref: "./login.yaml"
+      - cmd: click
+        desc: "BASE Operator"
+        location: '/'
+
+      - cmd: something
+      - desc: just for test

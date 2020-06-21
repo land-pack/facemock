@@ -1,0 +1,9 @@
+A:
+    id: CASE-LOGIN
+    status: 0
+    steps:
+
+      # BLOCK ...
+      - cmd: click
+        desc: "Login"
+        location: '/login'
