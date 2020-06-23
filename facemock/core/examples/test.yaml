@@ -4,18 +4,16 @@ A:
   steps:
   # Ref:common: A
   # Ref:login: A
-  - cmd: click
+  - cmd: save_screenshot
     desc: Login
-    location: /login
+    location: https://www.baidu.com
+    filename: 'fuck1.png'
+
   # End:login: A
   - cmd: click
     desc: BASE Operator
-    location: /
-  - cmd: something
-  - desc: just for test
-  # End:common: A
-  - cmd: click
-    desc: open a page
-    location: /
+    location: //a[text()="新闻"]
+
   - cmd: screenshot
-    name: HOME-PAGE
+    desc: Login
+    filename: 'fuck2.png'
