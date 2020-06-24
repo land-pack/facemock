@@ -16,6 +16,5 @@ A:
     byXpath: //input[@id='kw']
     value: selenium python
 
-  # - cmd: screenshot
-  #   desc: Login
-  #   filename: 'fuck2.png'
+  - cmd: screenshot
+    desc: Login

@@ -48,7 +48,7 @@ def execute(driver=None, conf={},  kwargs={}):
         pass
 
     elif cmd == 'click':
-        path = kwargs.get("filename") or 'click_at_{}_.png'.format(time.time())
+        path = kwargs.get("filename") or './click_at_{}_.png'.format(time.time())
         value = kwargs.get("value")
         # element = driver.find_element_by_xpath(location)
         # location a position --> text
@@ -64,7 +64,7 @@ def execute(driver=None, conf={},  kwargs={}):
         # need to wait here
         # time.sleep(3)
     elif cmd == 'screenshot':
-        path = kwargs.get("filename") or 'shot_at_{}_.png'.format(time.time())
+        path = kwargs.get("filename") or './shot_at_{}_.png'.format(time.time())
         print("take a shot ", path)
         driver.get_screenshot_as_file(path)
     else:
