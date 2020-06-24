@@ -19,15 +19,21 @@ from parser import parser_yaml
 #     # if search for the element with text as "No results found" raises "TimeoutException" exception click on the element with text as "Buy Now" inducing WebDriverWait
 #     WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//button[contains(,. 'Buy Now')]"))).click()
 
-def execute(driver=None, conf={}, location=None, cmd=None, args=[], kwargs={}):
+def execute(driver=None, conf={},  kwargs={}):
+    target = conf.get("target")
     # if "window_size" in conf:
     #     driver.set_window_size(conf.get("window_size"))
     start = time.time()
     # Open a page
-    url = kwargs.get("url")
-    driver.get(url)
+    url = kwargs.get("url") or driver.current_url
+    is_first_time_in = False
+    if "about:blank" in url:
+        first_time_in = True
+        url = target
 
-    location = kwargs.get("location") or location
+    print("Target url:", url)
+    driver.get(url)
+    location = kwargs.get("location")
     cmd = kwargs.get("cmd") or cmd
     byId = kwargs.get("byId")
     byXpath = kwargs.get("byXpath")
@@ -42,7 +48,7 @@ def execute(driver=None, conf={}, location=None, cmd=None, args=[], kwargs={}):
         pass
 
     elif cmd == 'click':
-        path = kwargs.get("filename")
+        path = kwargs.get("filename") or 'click_at_{}_.png'.format(time.time())
         value = kwargs.get("value")
         # element = driver.find_element_by_xpath(location)
         # location a position --> text
@@ -51,20 +57,20 @@ def execute(driver=None, conf={}, location=None, cmd=None, args=[], kwargs={}):
         # driver.find_element_by_id('su').click()
         ele.send_keys(value)
         driver.find_element_by_id('su').click()
-        time.sleep(3)
+        # time.sleep(3)
         # ret = element.click()
         driver.get_screenshot_as_file(path)
         print("click done -->", 'done')
         # need to wait here
         # time.sleep(3)
     elif cmd == 'screenshot':
-        path = kwargs.get("filename") or cmd
+        path = kwargs.get("filename") or 'shot_at_{}_.png'.format(time.time())
         print("take a shot ", path)
         driver.get_screenshot_as_file(path)
     else:
 
         try:
-            driver.get(location)
+            driver.get(url)
             func = getattr(driver, cmd)
             p = kwargs.get("filename")
             func(p)
@@ -82,10 +88,15 @@ def main():
     # load yaml
     case = parser_yaml('./examples/test.yaml')
     group = case.get("A")
+    target = group.get("target")
     steps = group.get("steps")
+
+    conf = {
+        "target": target
+    }
     for step in steps:
         print("step -->", step)
-        execute(driver, kwargs=step)
+        execute(driver, conf=conf, kwargs=step)
 
 if __name__ == '__main__':
     main()

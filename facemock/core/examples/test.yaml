@@ -1,18 +1,17 @@
 A:
   id: CASE-STACKOVERFLOW-HOME
+  target: https://www.baidu.com
   status: 0
   steps:
   # Ref:common: A
   # Ref:login: A
-  # - cmd: save_screenshot
-  #   desc: Login
-  #   location: https://www.baidu.com
-  #   filename: 'fuck1.png'
+  - cmd: save_screenshot
+    desc: "open baidu home page"
+    filename: fuck1.png
 
   # End:login: A
   - cmd: click
     desc: BASE Operator
-    url: https://www.baidu.com
     filename: sx.png
     byXpath: //input[@id='kw']
     value: selenium python
