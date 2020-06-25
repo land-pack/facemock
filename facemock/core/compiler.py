@@ -3,6 +3,7 @@ import yaml
 from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from parser import parser_yaml
+from mark import mark_mouse
 # is_displayed
 
 
@@ -30,37 +31,44 @@ def execute(driver=None, conf={},  kwargs={}):
     if "about:blank" in url:
         first_time_in = True
         url = target
+        driver.get(url)
 
     print("Target url:", url)
-    driver.get(url)
+    # driver.get(url)
     location = kwargs.get("location")
     cmd = kwargs.get("cmd") or cmd
     byId = kwargs.get("byId")
     byXpath = kwargs.get("byXpath")
+
     if byId:
+        mark_key = byId
         ele = driver.find_element_by_id(byId)
     elif byXpath:
+        mark_key = byXpath
         ele = driver.find_element_by_xpath(byXpath)
     else:
         print("Please don't forget to use a ID or Location")
 
-    if cmd == 'hit':
-        pass
+    # path = kwargs.get("filename") or './click_at_{}_.png'.format(time.time())
+    value = kwargs.get("value")
+
+    if cmd == 'setValue':
+        ele.send_keys(value)
+        path = kwargs.get("filename") or './setValue_at_{}_.png'.format(time.time())
 
     elif cmd == 'click':
-        path = kwargs.get("filename") or './click_at_{}_.png'.format(time.time())
-        value = kwargs.get("value")
         # element = driver.find_element_by_xpath(location)
         # location a position --> text
         # driver.find_element_by_id('kw').send_keys(value)
         # location a button --> click
         # driver.find_element_by_id('su').click()
-        ele.send_keys(value)
-        driver.find_element_by_id('su').click()
+        # mark_mouse(mark_key, ele.rect)
+
+        # driver.find_element_by_id('su').click()
+        ele.click()
+        path = kwargs.get("filename") or './click_at_{}_.png'.format(time.time())
         # time.sleep(3)
         # ret = element.click()
-        driver.get_screenshot_as_file(path)
-        print("click done -->", 'done')
         # need to wait here
         # time.sleep(3)
     elif cmd == 'screenshot':
@@ -77,7 +85,10 @@ def execute(driver=None, conf={},  kwargs={}):
 
         except AttributeError:
             print("dostuff not found")
-    print(" Cost time: {} seconds".format(time.time() - start))
+
+    driver.get_screenshot_as_file(path)
+    mark_mouse(path, ele.rect)
+    print("Done: cmd={} | path={} |  seconds={}".format(cmd, path, time.time() - start))
 
 def main():
     driver = webdriver.Remote('http://localhost:5555/wd/hub', DesiredCapabilities.FIREFOX)

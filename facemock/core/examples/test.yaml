@@ -5,16 +5,14 @@ A:
   steps:
   # Ref:common: A
   # Ref:login: A
-  - cmd: save_screenshot
-    desc: "open baidu home page"
-    filename: fuck1.png
+
+
+  - cmd: setValue
+    value: hello world
+    byXpath: //input[@id='kw']
+    desc: set search key word
 
   # End:login: A
   - cmd: click
     desc: BASE Operator
-    filename: sx.png
-    byXpath: //input[@id='kw']
-    value: selenium python
-
-  - cmd: screenshot
-    desc: Login
+    byXpath: //input[@value="百度一下"]
