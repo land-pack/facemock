@@ -16,3 +16,4 @@ A:
   - cmd: click
     desc: BASE Operator
     byXpath: //input[@value="百度一下"]
+    delay: 5
