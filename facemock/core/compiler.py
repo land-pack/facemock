@@ -38,6 +38,7 @@ def execute(driver=None, conf={},  kwargs={}):
         print("Please don't forget to use a ID or Location")
 
     value = kwargs.get("value")
+    need_mark = True
 
     if cmd == 'setValue':
         ele.send_keys(value)
@@ -47,6 +48,13 @@ def execute(driver=None, conf={},  kwargs={}):
         ele.click()
         path = kwargs.get("filename") or '{}click_at_{}_.png'.format(META_PATH, time.time())
         time.sleep(int(delay))
+
+    elif cmd == 'switchTo':
+        path = kwargs.get("filename") or '{}switchTo_at_{}_.png'.format(META_PATH, time.time())
+        window_after = driver.window_handles[1]
+        driver.switch_to.window(window_after)
+        need_mark = False
+
     elif cmd == 'screenshot':
         path = kwargs.get("filename") or '{}shot_at_{}_.png'.format(META_PATH, time.time())
         driver.get_screenshot_as_file(path)
@@ -62,7 +70,8 @@ def execute(driver=None, conf={},  kwargs={}):
             print("dostuff not found")
 
     driver.get_screenshot_as_file(path)
-    mark_mouse(path, ele.rect)
+    if need_mark:
+        mark_mouse(path, ele.rect)
     print("Done: cmd={} | path={} |  seconds={}".format(cmd, path, time.time() - start))
 
 def main():
@@ -70,7 +79,7 @@ def main():
     driver.set_window_size(1280, 1024)
 
     # load yaml
-    case = parser_yaml('./examples/test.yaml')
+    case = parser_yaml('./examples/klook.yaml')
     group = case.get("A")
     target = group.get("target")
     steps = group.get("steps")
