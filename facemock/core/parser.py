@@ -86,13 +86,13 @@ def extends(steps):
             new_steps.append(step)
     return new_steps
 
-def main(filename, group_name, output_file):
+def main(case, filename, group_name, output_file):
 
     original = parser_yaml(filename)
-    s = get_steps(original.get("A"))
+    s = get_steps(original.get(case))
     new_steps = []
     new_steps = extends(s)
-    original['A'].update({
+    original[case].update({
         "steps": new_steps
     })
 
@@ -102,4 +102,4 @@ def main(filename, group_name, output_file):
 if __name__ == '__main__':
     f = META_PATH + 'data.yaml'
     o = META_PATH + 'test.yaml'
-    main(f, 'A', o)
+    main("BAIDU", f, 'A', o)

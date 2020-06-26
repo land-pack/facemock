@@ -1,14 +1,6 @@
-A:
-    id: CASE-STACKOVERFLOW-HOME
+BAIDU:
+    id: CASE-BAIDU-X
     status: 0
     steps:
 
-      - ref: "common_A"
-      # - ref: "login_A"
-
-      - cmd: click
-        desc: "open a page"
-        location: '/'
-
-      - cmd: screenshot
-        name: HOME-PAGE
+      - ref: common_BAIDU

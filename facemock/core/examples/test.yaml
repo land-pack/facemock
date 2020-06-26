@@ -1,19 +1,14 @@
-A:
-  id: CASE-STACKOVERFLOW-HOME
-  target: https://www.baidu.com
+BAIDU:
+  id: CASE-BAIDU-X
   status: 0
   steps:
-  # Ref:common: A
-  # Ref:login: A
-
-
-  - cmd: setValue
-    value: hello world
-    byXpath: //input[@id='kw']
+  # Ref:common: BAIDU
+  - byXpath: //input[@id='kw']
+    cmd: setValue
     desc: set search key word
-
-  # End:login: A
-  - cmd: click
-    desc: BASE Operator
-    byXpath: //input[@value="百度一下"]
+    value: hello world
+  - byXpath: //input[@value="百度一下"]
+    cmd: click
     delay: 5
+    desc: BASE Operator
+  # End:common: BAIDU
