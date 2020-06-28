@@ -8,6 +8,7 @@ class Facemock(object):
     def __init__(self, *args, **kwargs):
         pass
 
+
     def load_case(self, input="./case", max_workers=None):
         """
         An Executor subclass that executes calls asynchronously
@@ -19,7 +20,7 @@ class Facemock(object):
         cases =[ "{}/{}".format(input, i) for i in os.listdir(input) if i.endswith(".yaml")]
         with concurrent.futures.ProcessPoolExecutor(max_workers=max_workers) as executor:
             for  i  in zip(cases, executor.map(parser.do_parser, cases)):
-                print('Case:  | output: {}'.format(i))
+                print('Parser return: {}'.format(i))
 
 
     def run(self):

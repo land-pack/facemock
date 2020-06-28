@@ -2,5 +2,4 @@ BAIDU:
     id: CASE-BAIDU-X
     status: 0
     steps:
-
       - ref: a_A

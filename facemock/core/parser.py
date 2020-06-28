@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import os.path, time
 
 import yaml
 
@@ -90,6 +91,12 @@ def do_parser(filename):
 
     case = 'BAIDU'
     output_file = filename.replace("./case", './meta')
+    if os.path.isfile(output_file) and \
+        os.path.getctime(output_file) > os.path.getctime(filename):
+        # Because nothing change, don't need to parser again !
+       return "skip"
+
+
     original = parser_yaml(filename)
     print("orignal -->", original)
     s = get_steps(original.get(case))
@@ -101,7 +108,7 @@ def do_parser(filename):
 
     dump_to_yaml(original, output_file)
     parser_yaml_comments(output_file)
-    return case, output_file
+    return "done"
 
 if __name__ == '__main__':
     f = META_PATH + 'data.yaml'
