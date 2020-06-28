@@ -5,7 +5,7 @@ sys.path.append("..")
 from facemock import Facemock
 app = Facemock()
 
-app.load_case("./case/", "./meta/test.yaml")
+app.load_case()
 
 
 
