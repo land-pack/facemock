@@ -14,3 +14,4 @@
 9. 测试进度条,断点续传
 10. 使用canvas 画出流程
 11. 点击图片查看大图
+12. 管理控制平台，[参考](https://app.lambdatest.com/console/test-logs)

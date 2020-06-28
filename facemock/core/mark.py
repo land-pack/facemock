@@ -4,8 +4,13 @@ import cv2
 def mark_mouse(filename, rect):
     # rect = {'height': 44.0, 'width': 548.0, 'x': 313.0, 'y': 228.0}
     img=cv2.imread(filename)
-    print("img origin size: {}".format(img.size))
-    img = cv2.resize(img, (300, 300), interpolation=cv2.INTER_CUBIC)
+    print("img origin size: {} | filename: {}".format(img.size, filename))
+    img = cv2.resize(img, (350, 350), interpolation=cv2.INTER_CUBIC)
+
+    _, p, t =  filename.split("/")
+    filename2 = "./" + p + "/" + "icon" + "/" + t
+    print("filename2:{}".format(filename2))
+    cv2.imwrite(filename2, img)
     pos = int(rect.get("x")), int(rect.get("y"))
     dia = int(rect.get("x") + rect.get("width")), int(rect.get("y") + rect.get("height"))
     cv2.rectangle(img, pos, dia,(20,0,250),1)
@@ -14,4 +19,4 @@ def mark_mouse(filename, rect):
 
 if __name__ == '__main__':
     rect = {'height': 44.0, 'width': 548.0, 'x': 313.0, 'y': 228.0}
-    mark_mouse('./meta/click_at_1593168167.262957_.png', rect)
+    mark_mouse('./meta/click_at_1593236968_.png', rect)

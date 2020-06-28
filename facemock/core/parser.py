@@ -7,7 +7,7 @@ from tempfile import mkstemp
 from shutil import move, copymode
 from os import fdopen, remove
 
-META_PATH = './examples/'
+META_PATH = './case/common/'
 
 def parser_yaml(filename):
     new_data = {}
@@ -86,9 +86,12 @@ def extends(steps):
             new_steps.append(step)
     return new_steps
 
-def main(case, filename, group_name, output_file):
+def do_parser(filename):
 
+    case = 'BAIDU'
+    output_file = filename.replace("./case", './meta')
     original = parser_yaml(filename)
+    print("orignal -->", original)
     s = get_steps(original.get(case))
     new_steps = []
     new_steps = extends(s)
@@ -98,8 +101,9 @@ def main(case, filename, group_name, output_file):
 
     dump_to_yaml(original, output_file)
     parser_yaml_comments(output_file)
+    return case, output_file
 
 if __name__ == '__main__':
     f = META_PATH + 'data.yaml'
     o = META_PATH + 'test.yaml'
-    main("BAIDU", f, 'A', o)
+    do_parser("BAIDU", f, 'A', o)

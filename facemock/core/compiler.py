@@ -42,21 +42,21 @@ def execute(driver=None, conf={},  kwargs={}):
 
     if cmd == 'setValue':
         ele.send_keys(value)
-        path = kwargs.get("filename") or '{}setValue_at_{}_.png'.format(META_PATH, time.time())
+        path = kwargs.get("filename") or '{}setValue_at_{}_.png'.format(META_PATH, int(time.time()))
 
     elif cmd == 'click':
         ele.click()
-        path = kwargs.get("filename") or '{}click_at_{}_.png'.format(META_PATH, time.time())
+        path = kwargs.get("filename") or '{}click_at_{}_.png'.format(META_PATH, int(time.time()))
         time.sleep(int(delay))
 
     elif cmd == 'switchTo':
-        path = kwargs.get("filename") or '{}switchTo_at_{}_.png'.format(META_PATH, time.time())
+        path = kwargs.get("filename") or '{}switchTo_at_{}_.png'.format(META_PATH, int(time.time()))
         window_after = driver.window_handles[1]
         driver.switch_to.window(window_after)
         need_mark = False
 
     elif cmd == 'screenshot':
-        path = kwargs.get("filename") or '{}shot_at_{}_.png'.format(META_PATH, time.time())
+        path = kwargs.get("filename") or '{}shot_at_{}_.png'.format(META_PATH, int(time.time()))
         driver.get_screenshot_as_file(path)
     else:
 

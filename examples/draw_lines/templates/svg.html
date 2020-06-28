@@ -1,11 +1,48 @@
-<div id="div1" style="width: 200px; height: 200px; top:0; left:0; background:#777; position:absolute;">
 
-</div>
-<div id="div2" onclick="location.href='#'" style="width: 300px; height: 300px; top:300px; left:300px; background:url({{url_for('static', filename='test.png')}}); position:absolute;cursor: pointer;">
-<a href="https://www.baidu.com">HIT ME</a>
+<html>
 
-</div>
+<body>
+    <button onclick="myFunction()">Try it</button>
+<br>
 
-<svg width="500" height="500">
-    <line x1="50" y1="50" x2="350" y2="350" stroke="black"/>
+
+<svg width="1500" height="1500">
+    <!-- <line x1="50" y1="50" x2="350" y2="350" stroke="black"/> -->
 </svg>
+<script>
+    var scrollLeft = 0
+    var scrollLeft_step = 300;
+    var scrollTop = 0;
+
+function myFunction() {
+  // var btn = document.createElement("<div id="div2" onclick="location.href='#'" style="width: 300px; height: 300px; top:0; left:0; background:url({{url_for('static', filename='test.png')}}); position:absolute;cursor: pointer;">");
+  console.log("make new element :)")
+  var g = document.createElement('div');
+   var br = document.createElement('br');
+  g.setAttribute("id", "Div-${scrollTop}");
+  g.setAttribute("onclick", "location.href='#'");
+
+  var top = 0
+  if (scrollTop % 2 == 1){
+      top = 300
+  }
+  scrollTop = scrollTop + 1
+  scrollLeft = scrollLeft + scrollLeft_step
+  console.log("top", top)
+  console.log("left", scrollLeft)
+  var style = "width: 300px; height: 300px; top:${top}px; left:${scrollLeft}px; background:url({{url_for('static', filename='test.png')}}) position:relative;cursor: pointer;"
+  g.setAttribute("style", style);
+  console.log(style)
+  // g.setAttribute("position","absolute")
+  // g.setAttribute("cursor", "pointer")
+  // g.setAttribute("style", "width: 300px; height: 300px; top:0; left:0; background:#777");
+  document.body.appendChild(g);
+  document.body.appendChild(br);
+  // var b = document.createElement("BUTTON")
+  // document.body.appendChild(b)
+  // console.log(b);
+}
+</script>
+
+</body>
+</html>
