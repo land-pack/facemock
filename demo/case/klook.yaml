@@ -1,0 +1,48 @@
+A:
+  id: CASE-STACKOVERFLOW-HOME
+  target: https://www.klook.com
+  status: 0
+  steps:
+  # Ref:common: A
+  # Ref:login: A
+
+
+  - cmd: click
+    value: hello world
+    byXpath: //span[contains(text(), "酒店")] | //span[contains(text(), "Hotel")]
+    desc: set search key word
+    delay: 3
+
+  # End:login: A
+  - cmd: click
+    desc: BASE Operator
+    byXpath: //a/div[contains(text(), "Credits")][last()] | //a/div[contains(text(), "积分")][last()]
+    delay: 5
+
+  - cmd: switchTo
+    desc: BASE Operator
+    delay: 5
+B:
+  id: CASE-STACKOVERFLOW-HOME
+  target: https://www.klook.com
+  status: 0
+  steps:
+  # Ref:common: A
+  # Ref:login: A
+
+
+  - cmd: click
+    value: hello world
+    byXpath: //span[contains(text(), "酒店")] | //span[contains(text(), "Hotel")]
+    desc: set search key word
+    delay: 3
+
+  # End:login: A
+  - cmd: click
+    desc: BASE Operator
+    byXpath: //a/div[contains(text(), "Credits")][last()] | //a/div[contains(text(), "积分")][last()]
+    delay: 5
+
+  - cmd: switchTo
+    desc: BASE Operator
+    delay: 5

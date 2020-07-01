@@ -23,5 +23,12 @@ class Facemock(object):
                 print('Parser return: {}'.format(i))
 
 
+    def exec_case(self, input="./meta", max_workers=None):
+        print("Executing case ...")
+        cases =[ "{}/{}".format(input, i) for i in os.listdir(input) if i.endswith(".yaml")]
+        with concurrent.futures.ProcessPoolExecutor(max_workers=max_workers) as executor:
+            for  i  in zip(cases, executor.map(parser.execute, cases)):
+                print('Parser return: {}'.format(i))
+
     def run(self):
         print("Start ....")

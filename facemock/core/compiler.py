@@ -74,7 +74,7 @@ def execute(driver=None, conf={},  kwargs={}):
         mark_mouse(path, ele.rect)
     print("Done: cmd={} | path={} |  seconds={}".format(cmd, path, time.time() - start))
 
-def main():
+def test():
     driver = webdriver.Remote('http://localhost:5555/wd/hub', DesiredCapabilities.FIREFOX)
     driver.set_window_size(1280, 1024)
 
@@ -95,4 +95,4 @@ def main():
             execute(driver, conf=conf, kwargs=step)
 
 if __name__ == '__main__':
-    main()
+    test()

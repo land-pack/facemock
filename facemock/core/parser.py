@@ -88,24 +88,22 @@ def extends(steps):
     return new_steps
 
 def do_parser(filename):
-
-    case = 'BAIDU'
     output_file = filename.replace("./case", './meta')
     if os.path.isfile(output_file) and \
         os.path.getctime(output_file) > os.path.getctime(filename):
         # Because nothing change, don't need to parser again !
-       return "skip"
+        return "skip"
 
-
-    original = parser_yaml(filename)
-    s = get_steps(original.get(case))
-    new_steps = []
-    new_steps = extends(s)
-    original[case].update({
-        "steps": new_steps
-    })
-
-    dump_to_yaml(original, output_file)
+    all_group = parser_yaml(filename)
+    new_all_group = {}
+    for group_name in all_group:
+        s = get_steps(all_group.get(group_name))
+        new_steps = []
+        new_steps = extends(s)
+        all_group[group_name].update({
+            "steps": new_steps
+        })
+    dump_to_yaml(all_group, output_file)
     parser_yaml_comments(output_file)
     return "done"
 
