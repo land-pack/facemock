@@ -98,7 +98,6 @@ def do_parser(filename):
 
 
     original = parser_yaml(filename)
-    print("orignal -->", original)
     s = get_steps(original.get(case))
     new_steps = []
     new_steps = extends(s)

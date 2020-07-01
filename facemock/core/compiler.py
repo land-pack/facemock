@@ -80,16 +80,19 @@ def main():
 
     # load yaml
     case = parser_yaml('./examples/klook.yaml')
-    group = case.get("A")
-    target = group.get("target")
-    steps = group.get("steps")
+    for group_name in case.keys():
+        # group = case.get("A")
+        group = case.get(group_name)
+        print("case -->", group)
+        target = group.get("target")
+        steps = group.get("steps")
 
-    conf = {
-        "target": target
-    }
-    for step in steps:
-        print("step -->", step)
-        execute(driver, conf=conf, kwargs=step)
+        conf = {
+            "target": target
+        }
+        for step in steps:
+            print("step -->", step)
+            execute(driver, conf=conf, kwargs=step)
 
 if __name__ == '__main__':
     main()
