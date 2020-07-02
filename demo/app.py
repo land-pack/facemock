@@ -6,6 +6,7 @@ from facemock import Facemock
 app = Facemock()
 
 app.load_case()
+app.exec_case(max_workers=5)
 
 
 

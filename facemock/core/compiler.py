@@ -2,15 +2,15 @@ import time
 import yaml
 from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-from parser import parser_yaml
-from mark import mark_mouse
+from selenium.common.exceptions import InvalidArgumentException, NoSuchElementException
+from .parser import parser_yaml
+from .mark import mark_rect
 
 META_PATH = "./meta/"
 
-def execute(driver=None, conf={},  kwargs={}):
+def route_execute(driver=None, conf={},  kwargs={}):
+    start_t = time.time()
     target = conf.get("target")
-    # if "window_size" in conf:
-    #     driver.set_window_size(conf.get("window_size"))
     start = time.time()
     # Open a page
     url = kwargs.get("url") or driver.current_url
@@ -18,7 +18,12 @@ def execute(driver=None, conf={},  kwargs={}):
     if "about:blank" in url:
         first_time_in = True
         url = target
-        driver.get(url)
+        try:
+            driver.get(url)
+        except InvalidArgumentException:
+            print("Url error:", url)
+            return
+
 
     print("Target url:", url)
     # driver.get(url)
@@ -30,12 +35,22 @@ def execute(driver=None, conf={},  kwargs={}):
 
     if byId:
         mark_key = byId
-        ele = driver.find_element_by_id(byId)
+        try:
+            ele = driver.find_element_by_id(byId)
+        except NoSuchElementException:
+            print("NoSuchElementException: {}".format(byId))
+            return
     elif byXpath:
         mark_key = byXpath
-        ele = driver.find_element_by_xpath(byXpath)
+        try:
+            ele = driver.find_element_by_xpath(byXpath)
+        except NoSuchElementException:
+            print("NoSuchElementException: {}".format(byXpath))
+            return
+
     else:
         print("Please don't forget to use a ID or Location")
+        return
 
     value = kwargs.get("value")
     need_mark = True
@@ -68,18 +83,25 @@ def execute(driver=None, conf={},  kwargs={}):
 
         except AttributeError:
             print("dostuff not found")
+            return
 
     driver.get_screenshot_as_file(path)
-    if need_mark:
-        mark_mouse(path, ele.rect)
+    end_t = time.time() - start_t
+    # if need_mark:
+    #     collect_info(path, ele.rect, end_t)
+
     print("Done: cmd={} | path={} |  seconds={}".format(cmd, path, time.time() - start))
 
-def test():
-    driver = webdriver.Remote('http://localhost:5555/wd/hub', DesiredCapabilities.FIREFOX)
-    driver.set_window_size(1280, 1024)
+def execute_case(driver, filename):
 
+    # # TODO： If you use multi-thread, don't declare driver here .
+    # driver = webdriver.Remote('http://localhost:5555/wd/hub', DesiredCapabilities.FIREFOX)
+    # driver.set_window_size(1280, 1024)
+
+    # prefix = './meta/'
+    # path = prefix + filename
     # load yaml
-    case = parser_yaml('./examples/klook.yaml')
+    case = parser_yaml(filename)
     for group_name in case.keys():
         # group = case.get("A")
         group = case.get(group_name)
@@ -95,4 +117,5 @@ def test():
             execute(driver, conf=conf, kwargs=step)
 
 if __name__ == '__main__':
-    test()
+    filename = './examples/klook.yaml'
+    execute_case(filename)

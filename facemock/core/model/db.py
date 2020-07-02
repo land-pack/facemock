@@ -1,7 +1,5 @@
 import sqlite3
 
-db_path = '/Users/frank/code/selenium-dev/facemock2/facemock/core/mock.db'
-
 def create_connection(db_file):
     """ create a database connection to the SQLite database
         specified by db_file
@@ -16,7 +14,7 @@ def create_connection(db_file):
 
     return conn
 
-def save_image(conn, img):
+def commit_image(conn, img):
     """
     Create a new project into the projects table
     :param conn:
