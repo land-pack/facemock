@@ -1,12 +1,20 @@
 import time
+import os
+from datetime import datetime
 import yaml
 from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-from selenium.common.exceptions import InvalidArgumentException, NoSuchElementException
+from selenium.common.exceptions import (
+                             InvalidArgumentException,
+                             NoSuchElementException,
+                             WebDriverException)
+
 from .parser import parser_yaml
 from .mark import mark_rect
 
-META_PATH = "./meta/"
+now = datetime.now() # current date and time
+META_PATH = "./assets/{}/".format(now.strftime("%Y%m%d%H%M"))
+os.mkdir(META_PATH)
 
 def route_execute(driver=None, conf={},  kwargs={}):
     start_t = time.time()
@@ -38,7 +46,7 @@ def route_execute(driver=None, conf={},  kwargs={}):
         try:
             ele = driver.find_element_by_id(byId)
         except NoSuchElementException:
-            print("NoSuchElementException: {}".format(byId))
+            print("NoSuchElementException: {} | with {}".format(byId, ))
             return
     elif byXpath:
         mark_key = byXpath
@@ -49,8 +57,7 @@ def route_execute(driver=None, conf={},  kwargs={}):
             return
 
     else:
-        print("Please don't forget to use a ID or Location")
-        return
+        print("A Sp command don't need to use location. like new window")
 
     value = kwargs.get("value")
     need_mark = True
@@ -62,12 +69,15 @@ def route_execute(driver=None, conf={},  kwargs={}):
     elif cmd == 'click':
         ele.click()
         path = kwargs.get("filename") or '{}click_at_{}_.png'.format(META_PATH, int(time.time()))
-        time.sleep(int(delay))
+        # time.sleep(int(delay))
 
     elif cmd == 'switchTo':
         path = kwargs.get("filename") or '{}switchTo_at_{}_.png'.format(META_PATH, int(time.time()))
-        window_after = driver.window_handles[1]
-        driver.switch_to.window(window_after)
+        windows = driver.window_handles
+        print("windows: {}".format(len(windows)))
+        for window in windows:
+            pass
+        driver.switch_to.window(window)
         need_mark = False
 
     elif cmd == 'screenshot':
