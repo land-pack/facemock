@@ -2,19 +2,10 @@ A:
   id: CASE-STACKOVERFLOW-HOME
   status: 0
   steps:
-  # Ref:a: A
-  - byXpath: //span[contains(text(), "酒店")] | //span[contains(text(), "Hotel")]
+  # Ref:klook: LOGIN
+  - byXpath: //span[.="分类"]
     cmd: click
-    delay: 3
-    desc: set search key word
-    value: hello world
-  - byXpath: //a/div[contains(text(), "Credits")][last()] | //a/div[contains(text(),
-      "积分")][last()]
-    cmd: click
-    delay: 5
-    desc: BASE Operator
-  - cmd: switchTo
-    delay: 5
-    desc: BASE Operator
-  # End:a: A
-  target: https://www.klook.com
+    desc: 分类.
+
+  - cmd: screenshot
+    desc: 截图看看

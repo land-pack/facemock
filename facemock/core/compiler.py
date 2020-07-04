@@ -16,6 +16,11 @@ now = datetime.now() # current date and time
 META_PATH = "./assets/{}/".format(now.strftime("%Y%m%d%H%M"))
 os.mkdir(META_PATH)
 
+
+
+
+
+
 def route_execute(driver=None, conf={},  kwargs={}):
     start_t = time.time()
     target = conf.get("target")
@@ -34,7 +39,6 @@ def route_execute(driver=None, conf={},  kwargs={}):
 
 
     print("Target url:", url)
-    # driver.get(url)
     location = kwargs.get("location")
     cmd = kwargs.get("cmd") or cmd
     byId = kwargs.get("byId")

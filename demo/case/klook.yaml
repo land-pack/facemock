@@ -1,6 +1,0 @@
-A:
-  id: CASE-STACKOVERFLOW-HOME
-  target: https://www.klook.com
-  status: 0
-  steps:
-      - ref: a_A
