@@ -6,6 +6,7 @@ A:
   - byXpath: //span[.="分类"]
     cmd: click
     desc: 分类.
+    delay: 5
 
   - cmd: screenshot
     desc: 截图看看

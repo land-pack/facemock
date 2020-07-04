@@ -10,7 +10,12 @@ try:
     else:
         os.mkdir(META_PATH)
 except Exception as e:
-    print("failre to create assets dir", e)
+    print("Failure to create assets dir", e)
+
+try:
+    os.mkdir(META_PATH + "icon/")
+except Exception as e:
+    print("Failure to create assets dir", e)
 
 class Action(object):
     def __init__(self, driver, dest):
@@ -27,7 +32,11 @@ class Action(object):
 
     def click(self, **kwargs):
         print("click ...")
+        # timeout = kwargs.get("delay")
+        # timeout = int(timeout)
+        timeout = 5
         self.ele.click()
+        time.sleep(timeout)
         path = kwargs.get("filename") or '{}click_at_{}_.png'.format(META_PATH, int(time.time()))
         ret = {"path": path}
         return ret

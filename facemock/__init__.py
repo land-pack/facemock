@@ -13,6 +13,7 @@ from .core import parser
 from .core import compiler as cc
 from .core import parser
 from .action import Action
+from .core.mark import collect_info
 
 
 class Facemock(object):
@@ -117,6 +118,11 @@ class Facemock(object):
             path = ret.get("path")
             print("path for screenshot: {} | {}".format(path, ret))
             self.driver.get_screenshot_as_file(path)
+            end_t = 0
+            need_mark = True
+            if need_mark:
+                collect_info(path, self.action.ele.rect, end_t)
+
 
         except AttributeError:
             print("dostuff not found")

@@ -12,9 +12,9 @@ from selenium.common.exceptions import (
 from .parser import parser_yaml
 from .mark import mark_rect
 
-now = datetime.now() # current date and time
-META_PATH = "./assets/{}/".format(now.strftime("%Y%m%d%H%M"))
-os.mkdir(META_PATH)
+# now = datetime.now() # current date and time
+# META_PATH = "./assets/{}/".format(now.strftime("%Y%m%d%H%M"))
+# os.mkdir(META_PATH)
 
 
 
