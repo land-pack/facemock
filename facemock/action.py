@@ -22,6 +22,7 @@ class Action(object):
         self.driver = driver
         self.dest =  dest
         self.ele = None
+        # self.meta = meta
         # url = kwargs.get("url") or self.driver.current_url
 
     def setValue(self, **kwargs):

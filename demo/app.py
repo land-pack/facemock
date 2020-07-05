@@ -9,8 +9,8 @@ app = Facemock()
 psswd = 'testKLOOK123!'
 
 
-app.load_case(max_workers=2)
-app.exec_case(max_workers=5)
+# app.load_case(max_workers=2)
+# app.exec_case(max_workers=5)
 
 
 if __name__ == '__main__':

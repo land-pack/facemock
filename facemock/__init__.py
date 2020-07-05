@@ -2,6 +2,8 @@ import os
 import time
 import concurrent.futures
 import threading
+from multiprocessing import Process
+
 from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.common.exceptions import (
@@ -14,17 +16,17 @@ from .core import compiler as cc
 from .core import parser
 from .action import Action
 from .core.mark import collect_info
-
+from .web import app as web_app
 
 class Facemock(object):
 
     def __init__(self, *args, **kwargs):
         self.handler_driver_time = 0
         self.last_url = None
-        t = time.time()
         self.time_out = 30
 
-
+    def init_webdriver(self):
+        t = time.time()
         try:
             print("Start to connect webdriver")
             self.driver = webdriver.Remote('http://localhost:5555/wd/hub', DesiredCapabilities.FIREFOX)
@@ -80,6 +82,8 @@ class Facemock(object):
     def exec_action(self, **kwargs):
 
         start_t = time.time()
+        self.init_webdriver()
+
         target = "https://www.klook.com"
         start = time.time()
         # Open a page
@@ -174,7 +178,24 @@ class Facemock(object):
         pass
 
     def dash_server(self):
-        pass
+        # f = os.path.join(web_app.root_path.replace("facemock/", "/"), 'demo', 'assets')
+        # print("cc p", f)
+        web_app.run()
 
     def run(self):
-        print("Start ....")
+        print("Start ....Load case")
+        p1 = Process(target=self.load_case, args=())
+
+        print("Start ....Exec case")
+        p2 = Process(target=self.exec_case, args=())
+
+        print("Start ....Web app")
+        p3 = Process(target=self.dash_server, args=())
+
+
+        p1.start()
+        p2.start()
+        p3.start()
+        p1.join()
+        p2.join()
+        p3.join()
