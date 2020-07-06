@@ -180,9 +180,13 @@ class Facemock(object):
     def dash_server(self):
         # f = os.path.join(web_app.root_path.replace("facemock/", "/"), 'demo', 'assets')
         # print("cc p", f)
-        web_app.run()
+        cwd = os.getcwd()
+        print("cwd  ..", cwd)
+        web_app.run(debug=True, port=5001)
 
     def run(self):
+        cwd = os.getcwd()
+        print("cwd  ..", cwd)
         print("Start ....Load case")
         p1 = Process(target=self.load_case, args=())
 

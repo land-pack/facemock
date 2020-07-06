@@ -22,7 +22,7 @@ except ImportError:
     from io import StringIO ## for Python 3
 
 app = Flask(__name__)
-p = '/Users/frank/code/selenium-dev/facemock2/demo/assets'
+p = os.getcwd() + '/assets'
 
 WIDTH = 1000
 HEIGHT = 800
@@ -31,7 +31,7 @@ TEMPLATE = '''
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
+    <title>Facemock Test Dash</title>
     <meta charset="utf-8" />
     <style>
 body {
@@ -48,7 +48,9 @@ img {
     display: block;
 }
     </style>
-    <script src="https://code.jquery.com/jquery-1.10.2.min.js" charset="utf-8"></script>
+<script src="{{ url_for('static', filename='dialog.js')}}" charset="utf-8"></script>
+<script src="{{ url_for('static', filename='boostrap.js')}}" charset="utf-8"></script>
+<script src="{{ url_for('static', filename='jquery.js')}}" charset="utf-8"></script>
     <script src="{{ url_for('static', filename='unveil.js')}}" charset="utf-8"></script>
     <script>
 $(document).ready(function() {
@@ -57,9 +59,13 @@ $(document).ready(function() {
     </script>
 </head>
 <body>
+    <h1> Test Case One </h1>
+    <br>
     {% for image in images %}
+        <h2> Test Case One </h2>
+        <br>
         <a class="image" href="{{ image.src }}" style="width: {{ image.width }}px; height: {{ image.height }}px">
-            <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="{{ image.src }}?w={{ image.width }}&amp;h={{ image.height }}" width="{{ image.width }}" height="{{ image.height }}" />
+            <img src="{{image.src}}" data-src="{{ image.src }}?w={{ image.width }}&amp;h={{ image.height }}" width="{{ image.width }}" height="{{ image.height }}" />
         </a>
     {% endfor %}
 </body>
