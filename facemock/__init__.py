@@ -4,6 +4,9 @@ import concurrent.futures
 import threading
 from multiprocessing import Process
 
+import redis
+r = redis.Redis(host='localhost', port=6379, db=0)
+
 from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.common.exceptions import (
@@ -66,16 +69,16 @@ class Facemock(object):
                 self.action.ele = self.driver.find_element_by_id(byId)
             except NoSuchElementException:
                 print("NoSuchElementException: {} | with {}".format(byId, ))
-                return self.action.ele
+                return "NoSuchElementException"
         elif byXpath:
             mark_key = byXpath
             try:
                 self.action.ele = self.driver.find_element_by_xpath(byXpath)
             except NoSuchElementException:
                 print("NoSuchElementException: {}".format(byXpath))
-                return self.action.ele
+                return "NoSuchElementException"
         else:
-            return "Can't found ele"
+            return "NoSuchElementException"
 
 
 
@@ -108,6 +111,9 @@ class Facemock(object):
                 print("=" * 45)
 
         ele = self._find_ele(kwargs)
+        if ele == "NoSuchElementException":
+            raise NoSuchElementException
+
         print("is ele display:{}".format(ele))
 
         try:
@@ -132,6 +138,22 @@ class Facemock(object):
             print("dostuff not found")
             return
 
+    def update_step(self, step):
+        p = r.pubsub()
+        p.subscribe('#update_xpath')
+        for i in p.listen():
+            # {'type': 'message', 'pattern': None, 'channel': b'#update_xpath', 'data': b'hello'}
+            print("i --->", i)
+            if i.get('type') in ('message', "subscribe"):
+                print(">>", i)
+                # TODO update step here ..
+                # self.exec_action(kwargs=step)
+            else:
+                print("done")
+                break
+
+
+
     def _load_case(self, filename):
         case = parser.parser_yaml(filename)
         # action = Action('driver')
@@ -148,7 +170,14 @@ class Facemock(object):
                 print("start step: {}".format(step))
                 # cc.route_execute(self.driver, conf=conf, kwargs=step)
                 # kwargs = step.get("kwargs")
-                self.exec_action(kwargs=step)
+                try:
+                    self.exec_action(kwargs=step)
+                except NoSuchElementException:
+                    # pendding here to wait someone update xpath and do again here.
+                    print("pre version of step -->", step)
+                    self.update_step(step)
+                else:
+                    print("done")
                 print("next step cost: {}".format(time.time() - t))
 
     def _execute(self, filename):
@@ -182,7 +211,7 @@ class Facemock(object):
         # print("cc p", f)
         cwd = os.getcwd()
         print("cwd  ..", cwd)
-        web_app.run(debug=True, port=5001)
+        web_app.run(debug=True, port=5018)
 
     def run(self):
         cwd = os.getcwd()

@@ -1,17 +1,9 @@
 from flask import Flask, send_from_directory
-#
-#
-# app = Flask(__name__)
-#
-# @app.route("/")
-# def index():
-#     return "Test Dashborad"
-#
-#
-# @app.route('/assets/<path:filename>')
-# def send_file(filename):
-#       return send_from_directory('/Users/frank/code/selenium-dev/facemock2/demo/assets', filename)
-#!/bin/python
+from flask import render_template, request
+
+import redis
+r = redis.Redis(host='localhost', port=6379, db=0)
+
 
 import os
 from flask import Flask, Response, request, abort, render_template_string, send_from_directory
@@ -28,48 +20,12 @@ WIDTH = 1000
 HEIGHT = 800
 
 TEMPLATE = '''
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Facemock Test Dash</title>
-    <meta charset="utf-8" />
-    <style>
-body {
-    margin: 0;
-    background-color: #333;
-}
-.image {
-    display: block;
-    margin: 2em auto;
-    background-color: #444;
-    box-shadow: 0 0 10px rgba(0,0,0,0.3);
-}
-img {
-    display: block;
-}
-    </style>
-<script src="{{ url_for('static', filename='dialog.js')}}" charset="utf-8"></script>
-<script src="{{ url_for('static', filename='boostrap.js')}}" charset="utf-8"></script>
-<script src="{{ url_for('static', filename='jquery.js')}}" charset="utf-8"></script>
-    <script src="{{ url_for('static', filename='unveil.js')}}" charset="utf-8"></script>
-    <script>
-$(document).ready(function() {
-    $('img').unveil(1000);
-});
-    </script>
-</head>
-<body>
-    <h1> Test Case One </h1>
-    <br>
-    {% for image in images %}
-        <h2> Test Case One </h2>
-        <br>
-        <a class="image" href="{{ image.src }}" style="width: {{ image.width }}px; height: {{ image.height }}px">
-            <img src="{{image.src}}" data-src="{{ image.src }}?w={{ image.width }}&amp;h={{ image.height }}" width="{{ image.width }}" height="{{ image.height }}" />
-        </a>
-    {% endfor %}
-</body>
+
 '''
+
+@app.route("/result")
+def result():
+    return render_template("result.html")
 
 @app.route('/Users/frank/code/selenium-dev/facemock2/demo/assets/<path:filename>')
 def image(filename):
@@ -120,9 +76,22 @@ def index():
                 'src': filename
             })
 
-    return render_template_string(TEMPLATE, **{
-        'images': images
-    })
+    return render_template('index.html', **{
+        'images': images})
+
+@app.route('/handle_data', methods=['POST'])
+def handle_data():
+    # part_id = xxx.form['part_id']
+    xpath = request.form['xpath']
+    print("xpath -->", xpath)
+    # p = r.pubsub()
+    # p.psubscribe('#update_xpath', xpath)
+    r.publish("#update_xpath", xpath)
+    return "ok"
+
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True, host='::')

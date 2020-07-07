@@ -1,0 +1,18 @@
+<html>
+    <head>
+            <link rel="stylesheet" href="{{url_for('static', filename='info.css')}}">
+        <title>
+            Test Report
+        </title>
+        <style type="text/css">
+        </style>
+    </head>
+    <body>
+        <h1 class="test-results-header">
+            Test Report
+        </h1>
+            <div style="width:800px; margin:0 auto;">
+            {% include 'info.html' %}
+        </div>
+    </body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Facemock Test Dash</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='info.css')}}">
+    <meta charset="utf-8" />
+    <style>
+body {
+    margin: 0;
+    background-color: #333;
+}
+.image {
+    display: block;
+    margin: 2em auto;
+    background-color: #444;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+img {
+    display: block;
+}
+    </style>
+<script src="{{ url_for('static', filename='dialog.js')}}" charset="utf-8"></script>
+<script src="{{ url_for('static', filename='boostrap.js')}}" charset="utf-8"></script>
+<script src="{{ url_for('static', filename='jquery.js')}}" charset="utf-8"></script>
+    <script src="{{ url_for('static', filename='unveil.js')}}" charset="utf-8"></script>
+    <script>
+$(document).ready(function() {
+    $('img').unveil(1000);
+});
+    </script>
+</head>
+<body>
+    {% for image in images %}
+                <div style="width:800px; margin:0 auto; background: powderblue">
+                    {% include 'info.html' %}
+                </div>
+    <br>
+    <a class="image" href="{{ image.src }}" style="width: {{ image.width }}px; height: {{ image.height }}px">
+        <img src="{{image.src}}" data-src="{{ image.src }}?w={{ image.width }}&amp;h={{ image.height }}" width="{{ image.width }}" height="{{ image.height }}" />
+    </a>
+    {% endfor %}
+
+</body>
+</html>
