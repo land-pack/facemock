@@ -145,7 +145,8 @@ class Facemock(object):
             # {'type': 'message', 'pattern': None, 'channel': b'#update_xpath', 'data': b'hello'}
             print("i --->", i)
             if i.get('type') in ('message', "subscribe"):
-                print(">>", i)
+                data = i.get("data")
+                print("data >>", data)
                 # TODO update step here ..
                 # self.exec_action(kwargs=step)
             else:
